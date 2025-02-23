@@ -5,7 +5,7 @@ function MainLayout({ children }) {
   return (
     <div>
       <Header />
-      <div className="container mx-auto ">{children}</div>
+      <div className="container max-w-[1090px] mx-auto ">{children}</div>
     </div>
   );
 }

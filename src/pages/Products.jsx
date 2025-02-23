@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import http from "../axios.js";
 import Card from "../components/Card";
+import Pagination from '@mui/material/Pagination';
+
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(1)
 
   const [filter, setFilter] = useState({
     search: "",
@@ -43,11 +47,16 @@ function Products() {
         }`;
     }
 
+    if (searchParams.get("page")) {
+      setCurrentPage(searchParams.get('page'))
+    }
+
     http
       .get(url)
       .then((response) => {
         if (response.status === 200) {
           setProducts(response?.data?.data);
+          setTotalPage(response?.data?.meta?.pagination.pageCount)
         }
       })
       .catch((error) => {
@@ -57,6 +66,24 @@ function Products() {
         setLoading(false);
       });
   }, [searchParams]);
+
+  useEffect(() => {
+    http
+      .get(`/products?page=${currentPage}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setProducts(response?.data?.data);
+          setTotalPage(response?.data?.meta?.pagination.pageCount)
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [currentPage])
+
 
   function handleFilter(e) {
     e.preventDefault();
@@ -84,6 +111,12 @@ function Products() {
       });
   }
 
+  function handlePaginate(event, target) {
+    setCurrentPage(target)
+    setSearchParams({ page: target })
+  }
+
+  //UI
   return (
     <div className="">
       <form
@@ -209,6 +242,9 @@ function Products() {
         {!loading && products.length === 0 && (
           <p>Sorry, no products matched your search...</p>
         )}
+      </div>
+      <div className="flex justify-end my-10">
+        <Pagination onChange={handlePaginate} page={currentPage} count={totalPage} variant="outlined" />
       </div>
     </div>
   );
