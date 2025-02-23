@@ -19,8 +19,8 @@ function Card(props) {
         className="w-full rounded-lg h-[250px] object-cover "
         src={product?.attributes?.image}
       />
-      <h4 className=" text-xl mt-2">{product?.attributes?.title}</h4>
-      <p className=" text-xl mt-2">{product?.attributes?.price}</p>
+      <h4 className=" text-xl mt-2 capitalize">{product?.attributes?.title}</h4>
+      <p className=" text-xl mt-2">${product?.attributes?.price}</p>
     </div>
   );
 }
