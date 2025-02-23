@@ -71,7 +71,9 @@ function Header() {
               </li>
             </ul>
           </nav>
-          <CustomizedBadges />
+          <NavLink to="/cart">
+            <CustomizedBadges />
+          </NavLink>
         </div>
       </div>
     </header>

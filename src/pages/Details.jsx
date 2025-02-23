@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { data, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import http from "../axios";
 import { CartContext } from "../App";
 import { ToastContainer, toast } from 'react-toastify';
@@ -23,7 +23,7 @@ function Details() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [params.id]);
 
   function handleAddToCart() {
 
@@ -68,7 +68,7 @@ function Details() {
     });
   }
 
-  return <div className="flex gap-[64px] mt-[130px]  justify-between mb-20">
+  return <div className="flex gap-[64px] mt-[65px]  justify-between mb-20">
     <img className="rounded-md w-1/2 h-[382px] object-cover" src={product?.attributes?.image} alt="" />
     <div className="w-1/2">
       <div className="">
